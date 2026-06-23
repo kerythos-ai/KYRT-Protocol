@@ -1,0 +1,21 @@
+{
+  "name": "Kerythos AI",
+  "symbol": "KYRT",
+  "description": "KYRT é o token de crescimento da Kerythos AI na Solana — alimentado pela receita de departamentos de IA autônomos (DaaS). Modelo deflacionário com buyback & burn: parte de cada recompra é queimada permanentemente e parte abastece o Expansion Vault, que financia novos projetos.",
+  "image": "https://kerythos.org/logo/kyrt-512.png",
+  "external_url": "https://kerythos.org",
+  "tags": ["ai", "daas", "solana", "defi", "deflationary"],
+  "properties": {
+    "category": "fungible",
+    "files": [
+      { "uri": "https://kerythos.org/logo/kyrt-512.png", "type": "image/png" }
+    ]
+  },
+  "extensions": {
+    "website": "https://kerythos.org",
+    "x": "https://x.com/kerythos_ai",
+    "linkedin": "https://www.linkedin.com/company/kerythos-ai",
+    "instagram": "https://instagram.com/kerythos.ai",
+    "facebook": "https://facebook.com/KerythosAI"
+  }
+}

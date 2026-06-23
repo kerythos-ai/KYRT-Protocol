@@ -1,0 +1,27 @@
+# Dependências
+node_modules/
+
+# Build
+dist/
+
+# Ambiente / segredos
+.env
+.env.local
+.env.*.local
+
+# ⚠️ KEYPAIRS — NUNCA committar chaves privadas
+.keys/
+*.keypair.json
+wallet*.json
+id.json
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Config local do Claude Code
+.claude/
