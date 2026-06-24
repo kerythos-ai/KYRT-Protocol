@@ -1,14 +1,14 @@
 {
   "name": "Kerythos AI",
   "symbol": "KYRT",
-  "description": "$KYRT is the native utility token of the Kerythos AI ecosystem on Solana — earned and spent across its business software, starting with the Kerythos Invoice app (Refer & Earn, and pay your plan in KYRT). Deflationary buyback & burn funded by real ecosystem revenue.",
-  "image": "https://kerythos.org/logo/kyrt-512.png",
+  "description": "$KYRT is the native utility token of the Kerythos AI ecosystem on Solana, earned and spent across all of its business software. A deflationary buyback and burn is funded by real ecosystem revenue.",
+  "image": "https://gateway.irys.xyz/AUDmVy1je3etEQbGMBZ3CEzjRt21JKjn9qynLKbdETeH",
   "external_url": "https://kerythos.org",
   "tags": ["solana", "spl", "utility", "fintech", "rewards", "deflationary"],
   "properties": {
     "category": "fungible",
     "files": [
-      { "uri": "https://kerythos.org/logo/kyrt-512.png", "type": "image/png" }
+      { "uri": "https://gateway.irys.xyz/AUDmVy1je3etEQbGMBZ3CEzjRt21JKjn9qynLKbdETeH", "type": "image/png" }
     ]
   },
   "extensions": {

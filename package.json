@@ -2,7 +2,7 @@
   "name": "kerythos-kyrt",
   "version": "0.1.0",
   "private": true,
-  "description": "$KYRT — token SPL da Kerythos AI na Solana",
+  "description": "$KYRT, token SPL da Kerythos AI na Solana",
   "type": "module",
   "scripts": {
     "airdrop": "tsx src/airdrop.ts",
@@ -13,6 +13,7 @@
     "burn": "tsx src/burn.ts",
     "info": "tsx src/token-info.ts",
     "deploy": "tsx src/deploy.ts",
+    "deploy:squads": "tsx src/deploy-squads.ts",
     "logo": "node scripts/gen-logo.mjs",
     "typecheck": "tsc --noEmit"
   },
@@ -23,9 +24,11 @@
     "@metaplex-foundation/mpl-token-metadata": "^3.4.0",
     "@metaplex-foundation/umi": "^1.5.1",
     "@metaplex-foundation/umi-bundle-defaults": "^1.5.1",
+    "@metaplex-foundation/umi-uploader-irys": "^1.5.0",
     "@metaplex-foundation/umi-web3js-adapters": "^1.5.1",
     "@solana/spl-token": "^0.4.14",
     "@solana/web3.js": "^1.98.4",
+    "@sqds/multisig": "^2.1.4",
     "dotenv": "^17.4.2"
   },
   "devDependencies": {
