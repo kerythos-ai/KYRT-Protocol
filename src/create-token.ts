@@ -8,7 +8,7 @@ async function main(): Promise<void> {
   console.log(`Creating the $${TOKEN.symbol} mint...`)
   console.log(`  Treasury/authority: ${treasury.publicKey.toBase58()}`)
   if (!KYRT_METADATA_URI) {
-    console.log('  ⚠️  KYRT_METADATA_URI is empty — token has no image/JSON. Set it later for production.')
+    console.log('  ⚠️  KYRT_METADATA_URI is empty, token has no image/JSON. Set it later for production.')
   }
 
   const mint = await createKyrtMint(treasury)

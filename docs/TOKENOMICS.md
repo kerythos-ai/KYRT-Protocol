@@ -1,4 +1,4 @@
-# $KYRT Tokenomics — reference parameters
+# $KYRT Tokenomics, reference parameters
 
 > **Provisional**, locked on 2026-06-23 from the model in [`KYRT_Tokenomics.xlsx`](KYRT_Tokenomics.xlsx).
 > "Let's go with these numbers for now." Revisit before mainnet.
@@ -9,24 +9,24 @@
 |---|--:|--:|---|
 | **Rewards pool** | 15% | 150,000,000 | community distribution (Refer & Earn) |
 | **Liquidity** | 85%* | 850,000,000* | liquidity fair launch · LP burned/locked |
-| **Expansion Vault** | 0% at genesis | — | funded **only post-launch via buyback** |
+| **Expansion Vault** | 0% at genesis |, | funded **only post-launch via buyback** |
 
 \* exact split between liquidity and an eventual operating treasury still to be defined.
 
-- Total supply: **1,000,000,000** (fixed — mint authority revoked).
-- ⚠️ With the Rewards pool, this is **no longer a "100% pure fair launch"** — it's a **liquidity fair launch + community rewards pool**. Adjust the site/README narrative accordingly.
-- **Reference** target price: **$0.002** (FDV ~$2M). Reference only — the market decides.
+- Total supply: **1,000,000,000** (fixed, mint authority revoked).
+- ⚠️ With the Rewards pool, this is **no longer a "100% pure fair launch"**, it's a **liquidity fair launch + community rewards pool**. Adjust the site/README narrative accordingly.
+- **Reference** target price: **$0.002** (FDV ~$2M). Reference only, the market decides.
 
-## Distribution — Refer & Earn
+## Distribution, Refer & Earn
 
 - Reward per successful referral (the referee completes their 1st **paid** invoice): **$8 in KYRT** (total value, split between referrer and referee).
 - Credited **off-chain** first (balance in Supabase) → **on-chain claim** later (see `KYRT_ONBOARDING.md`).
-- *Note from the model:* LTV/CAC ≈ 50x — there's plenty of room to be more generous whenever you want to accelerate adoption.
+- *Note from the model:* LTV/CAC ≈ 50x, there's plenty of room to be more generous whenever you want to accelerate adoption.
 
-## Sink — paying the subscription in KYRT
+## Sink, paying the subscription in KYRT
 
 - Discount for paying the plan in KYRT: **15%**.
-- Destination of the KYRT paid: **[TO DECIDE — burn vs. treasury]** (changes the deflation rate).
+- Destination of the KYRT paid: **[TO DECIDE, burn vs. treasury]** (changes the deflation rate).
 
 ## Buyback & Burn
 
@@ -37,7 +37,7 @@
 
 - Pro **$19/mo** · Business **$49/mo** · Starter free · Enterprise custom.
 
-## Model health (Base scenario — 15k users)
+## Model health (Base scenario, 15k users)
 
 | | |
 |---|--:|

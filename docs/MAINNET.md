@@ -1,4 +1,4 @@
-# Mainnet Plan — $KYRT
+# Mainnet Plan, $KYRT
 
 Security, custody, and go-live checklist for moving $KYRT from devnet to **mainnet-beta**.
 
@@ -6,9 +6,9 @@ Security, custody, and go-live checklist for moving $KYRT from devnet to **mainn
 
 ---
 
-## 1. Tokenomics model — liquidity fair launch + Rewards pool
+## 1. Tokenomics model, liquidity fair launch + Rewards pool
 
-> **Updated (2026-06-23):** with the adoption of Refer&Earn (utility in the invoice app), the tokenomics evolved from "pure fair launch" to **liquidity fair launch (~85%) + community Rewards pool (15% = 150M)** — with no team/investor allocation. Parameters in [`TOKENOMICS.md`](TOKENOMICS.md).
+> **Updated (2026-06-23):** with the adoption of Refer&Earn (utility in the invoice app), the tokenomics evolved from "pure fair launch" to **liquidity fair launch (~85%) + community Rewards pool (15% = 150M)**, with no team/investor allocation. Parameters in [`TOKENOMICS.md`](TOKENOMICS.md).
 >
 > ⚠️ **Implication for the deploy:** mainnet needs a **distribution script** that mints to the liquidity pool **and** to the rewards pool, unlike the devnet dry-run (which minted 100% into a single treasury). The Expansion Vault is funded via post-launch buyback.
 
@@ -17,9 +17,9 @@ Security, custody, and go-live checklist for moving $KYRT from devnet to **mainn
 | Bucket | % | KYRT | Custody |
 |---|---|---|---|
 | **Liquidity (pool)** | ~85% | ~850,000,000 | LP burned/locked |
-| **Rewards Pool (community)** | 15% | 150,000,000 | Multisig — distributed via Refer&Earn |
+| **Rewards Pool (community)** | 15% | 150,000,000 | Multisig, distributed via Refer&Earn |
 | Team / investor | 0% | 0 | no allocation |
-| Expansion Vault | 0% at genesis | — | funded only via post-launch buyback |
+| Expansion Vault | 0% at genesis |, | funded only via post-launch buyback |
 
 The three mechanics, on Solana:
 
@@ -37,19 +37,19 @@ The three mechanics, on Solana:
 
 Today's `deploy.ts` (devnet dry-run) mints 100% to **one** treasury and revokes the authorities. For mainnet, with the rewards pool:
 
-- [x] ✅ **`src/distribute.ts`** (`npm run distribute`) — mints to the **liquidity** wallet (~85%) and the **rewards pool / multisig** (15%) **before** revoking the mint authority. Wallets via `KYRT_LIQUIDITY_WALLET` / `KYRT_REWARDS_WALLET` (+ `KYRT_REWARDS_PCT`, default 15). Refuses to run if the mint already has supply (no double-mint) and requires explicit wallets on mainnet. **Dry-run-validated on devnet** (full create → distribute → revoke).
+- [x] ✅ **`src/distribute.ts`** (`npm run distribute`), mints to the **liquidity** wallet (~85%) and the **rewards pool / multisig** (15%) **before** revoking the mint authority. Wallets via `KYRT_LIQUIDITY_WALLET` / `KYRT_REWARDS_WALLET` (+ `KYRT_REWARDS_PCT`, default 15). Refuses to run if the mint already has supply (no double-mint) and requires explicit wallets on mainnet. **Dry-run-validated on devnet** (full create → distribute → revoke).
 - [ ] **Vesting** → vault/team should not sit in a plain wallet. Use **Streamflow** or **Bonfida Token Vesting** (audited vesting contracts) or Squads vaults with time-locked unlocking.
-- [x] ✅ **Logo** — `assets/images/kyrt-512.png` (512×512, navy bg + white mark + green accent), generated from the SVG by `npm run logo` (`scripts/gen-logo.mjs`). Also placed at the site's `public/logo/kyrt-512.png` so the interim URL resolves.
+- [x] ✅ **Logo**, `assets/images/kyrt-512.png` (512×512, navy bg + white mark + green accent), generated from the SVG by `npm run logo` (`scripts/gen-logo.mjs`). Also placed at the site's `public/logo/kyrt-512.png` so the interim URL resolves.
 - [~] **Immutable metadata** → `assets/metadata.json` is ready (copy aligned to the new narrative). Hosting steps, in order: **1)** upload `kyrt-512.png` to **Arweave** (Irys/Metaplex) or **IPFS** → get the image URI; **2)** put that URI in `metadata.json` `image` + `properties.files[].uri` (replacing the interim `kerythos.org` URL); **3)** upload `metadata.json` → set `KYRT_METADATA_URI` to its URI; **4)** after branding stabilizes, make it immutable (`isMutable: false`).
 
 ---
 
 ## 3. Security & custody of the authorities
 
-The devnet treasury is a keypair in a file — **unacceptable** for mainnet. Plan:
+The devnet treasury is a keypair in a file, **unacceptable** for mainnet. Plan:
 
 1. **Hardware wallet** (Ledger) as signer, or
-2. **Squads multisig** (https://squads.so) — the market standard on Solana — requiring M-of-N signatures to move funds from the vault/treasury.
+2. **Squads multisig** (https://squads.so), the market standard on Solana, requiring M-of-N signatures to move funds from the vault/treasury.
 
 Recommended authority sequence:
 - **Mint authority** → **revoke (null)** after minting. A fixed supply is the strongest trust signal and eliminates the "dev minted more" vector. *(This is what `revoke` already does.)*
@@ -61,7 +61,7 @@ Recommended authority sequence:
 
 ## 4. Estimated costs (mainnet, in SOL)
 
-Approximate figures — they vary with the network and the pool program.
+Approximate figures, they vary with the network and the pool program.
 
 | Item | Cost (SOL) |
 |---|---|
@@ -75,7 +75,7 @@ Approximate figures — they vary with the network and the pool program.
 | **+ Liquidity capital** | see `docs/LIQUIDITY.md` (separate) |
 
 > Recommended: keep **2–3 SOL** in the operational treasury, on top of the liquidity capital.
-> A **dedicated RPC** (Helius/QuickNode/Triton) is mandatory on mainnet — the public one is rate-limited. ~$0–50/month on the entry-level plans.
+> A **dedicated RPC** (Helius/QuickNode/Triton) is mandatory on mainnet, the public one is rate-limited. ~$0–50/month on the entry-level plans.
 
 ---
 
@@ -91,7 +91,7 @@ Approximate figures — they vary with the network and the pool program.
 
 **Deploy**
 - [ ] `npm run create` (mint + metadata)
-- [ ] `npm run distribute` (liquidity + rewards pool) — see §2
+- [ ] `npm run distribute` (liquidity + rewards pool), see §2
 - [ ] Check balances/distribution
 - [ ] `npm run revoke` (mint + freeze → null)
 - [ ] `npm run info` and validate on the explorer

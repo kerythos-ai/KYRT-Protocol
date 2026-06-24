@@ -34,7 +34,7 @@ async function main(): Promise<void> {
     }
   }
 
-  console.error('❌ Airdrop failed after several attempts — the public devnet faucet is rate-limited.')
+  console.error('❌ Airdrop failed after several attempts, the public devnet faucet is rate-limited.')
   console.error('   Alternatives:')
   console.error('   • Retry in a few minutes: npm run airdrop')
   console.error(`   • Web faucet: https://faucet.solana.com  (paste: ${treasury.publicKey.toBase58()})`)

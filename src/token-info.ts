@@ -17,7 +17,7 @@ async function main(): Promise<void> {
   }
   const info = await readMint(KYRT_MINT_ADDRESS)
 
-  console.log(`=== ${TOKEN.name} ($${TOKEN.symbol}) — ${CLUSTER} ===`)
+  console.log(`=== ${TOKEN.name} ($${TOKEN.symbol}), ${CLUSTER} ===`)
   console.log(`Mint:             ${KYRT_MINT_ADDRESS}`)
   console.log(`Decimals:         ${info.decimals}`)
   console.log(`Supply:           ${fmt(info.supply, info.decimals)} ${TOKEN.symbol}`)

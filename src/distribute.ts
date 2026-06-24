@@ -52,15 +52,15 @@ async function main(): Promise<void> {
     )
   }
 
-  // Safety: distribution must run on a freshly created mint — never mint twice.
+  // Safety: distribution must run on a freshly created mint, never mint twice.
   const before = await readMint(KYRT_MINT_ADDRESS)
   if (before.supply !== 0n) {
     throw new Error(
-      `Mint already has supply ${before.supply} (raw). Distribution runs only on a fresh mint — aborting to avoid double-minting.`,
+      `Mint already has supply ${before.supply} (raw). Distribution runs only on a fresh mint, aborting to avoid double-minting.`,
     )
   }
   if (!before.mintAuthority) {
-    throw new Error('Mint authority is already revoked — cannot mint. Aborting.')
+    throw new Error('Mint authority is already revoked, cannot mint. Aborting.')
   }
   if (!before.mintAuthority.equals(treasury.publicKey)) {
     throw new Error(

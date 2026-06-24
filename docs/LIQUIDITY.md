@@ -1,4 +1,4 @@
-# Liquidity Roadmap — $KYRT
+# Liquidity Roadmap, $KYRT
 
 How to create and manage the $KYRT market on a Solana DEX after deployment.
 
@@ -31,8 +31,8 @@ How to create and manage the $KYRT market on a Solana DEX after deployment.
 
 ## 3. Trading Pair
 
-- **KYRT/SOL** ⭐ — the native pair, most natural on Solana, best routing.
-- **KYRT/USDC** — stable, readable pricing, good for a second pool later.
+- **KYRT/SOL** ⭐, the native pair, most natural on Solana, best routing.
+- **KYRT/USDC**, stable, readable pricing, good for a second pool later.
 
 > **Recommendation:** launch with **KYRT/SOL**. Add **KYRT/USDC** in a second phase.
 

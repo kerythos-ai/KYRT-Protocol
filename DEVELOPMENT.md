@@ -1,6 +1,6 @@
-# $KYRT — Kerythos AI
+# $KYRT, Kerythos AI
 
-Kerythos AI's **SPL** token on **Solana**. Fixed supply, burnable, no custom program — it uses the native (audited) SPL Token Program + Metaplex metadata, all orchestrated by TypeScript scripts.
+Kerythos AI's **SPL** token on **Solana**. Fixed supply, burnable, no custom program, it uses the native (audited) SPL Token Program + Metaplex metadata, all orchestrated by TypeScript scripts.
 
 ## Tokenomics
 
@@ -19,7 +19,7 @@ Kerythos AI's **SPL** token on **Solana**. Fixed supply, burnable, no custom pro
 ## Prerequisites
 
 - Node.js ≥ 20 (tested on 24)
-- No Rust or Solana CLI — everything runs in TypeScript.
+- No Rust or Solana CLI, everything runs in TypeScript.
 
 ## Setup
 
@@ -28,7 +28,7 @@ npm install
 cp .env.example .env      # on Windows: copy .env.example .env
 ```
 
-Adjust `.env` if you like (the default already points to **devnet**). A treasury keypair is generated automatically at `.keys/treasury.json` on the first command — **never** commit this file.
+Adjust `.env` if you like (the default already points to **devnet**). A treasury keypair is generated automatically at `.keys/treasury.json` on the first command, **never** commit this file.
 
 ## Deploy flow (devnet)
 
@@ -70,7 +70,7 @@ src/
 │   ├── keypair.ts         # load/generate the treasury keypair
 │   ├── umi.ts             # Metaplex Umi instance (metadata)
 │   └── env.ts             # persist the mint to .env
-├── airdrop.ts             # thin CLIs — one per command
+├── airdrop.ts             # thin CLIs, one per command
 ├── create-token.ts
 ├── mint-supply.ts
 ├── revoke-authorities.ts
@@ -84,13 +84,13 @@ assets/metadata.json       # off-chain metadata (host on Arweave/IPFS for prod)
 
 - 🔑 The treasury keypair lives in `.keys/` (in `.gitignore`). Back it up offline.
 - 🧊 In production, transfer the authorities to a **multisig** (Squads) **before** revoking, or revoke outright to guarantee a fixed supply.
-- 🌐 Use a dedicated RPC (`SOLANA_RPC_URL`) on mainnet — the public one is rate-limited.
+- 🌐 Use a dedicated RPC (`SOLANA_RPC_URL`) on mainnet, the public one is rate-limited.
 
 ## Next steps (mainnet)
 
 Detailed planning in:
-- **[`docs/MAINNET.md`](docs/MAINNET.md)** — tokenomics, custody (Squads multisig), costs, go-live checklist
-- **[`docs/LIQUIDITY.md`](docs/LIQUIDITY.md)** — DEX, pool type, initial price, LP burn/lock, buyback & burn
+- **[`docs/MAINNET.md`](docs/MAINNET.md)**, tokenomics, custody (Squads multisig), costs, go-live checklist
+- **[`docs/LIQUIDITY.md`](docs/LIQUIDITY.md)**, DEX, pool type, initial price, LP burn/lock, buyback & burn
 
 Summary:
 1. Host `assets/metadata.json` + a 512×512 PNG logo on Arweave/IPFS → fill in `KYRT_METADATA_URI`.

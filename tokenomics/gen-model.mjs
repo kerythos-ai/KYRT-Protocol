@@ -1,4 +1,4 @@
-// Generates KYRT_Tokenomics.xlsx — a tokenomics calculator (Refer&Earn · Discount · Buyback).
+// Generates KYRT_Tokenomics.xlsx, a tokenomics calculator (Refer&Earn · Discount · Buyback).
 // Real formulas + cached values (opens already calculated). Run: node gen-model.mjs
 import ExcelJS from "exceljs";
 
@@ -60,7 +60,7 @@ ws.getColumn("A").width = 40;
 
 // Title
 ws.mergeCells("A1:E1");
-ws.getCell("A1").value = "KYRT — Economic Model  ·  Refer&Earn · Discount · Buyback";
+ws.getCell("A1").value = "KYRT, Economic Model  ·  Refer&Earn · Discount · Buyback";
 ws.getCell("A1").font = { name: "Arial", size: 13, bold: true, color: { argb: "FFFFFFFF" } };
 ws.getCell("A1").fill = { type: "pattern", pattern: "solid", fgColor: { argb: NAVY } };
 ws.getCell("A1").alignment = { vertical: "middle", horizontal: "left", indent: 1 };
@@ -148,16 +148,16 @@ for (const [lab, row, key, fmt] of scen) {
 
 // ── Computed blocks ─────────────────────────────────────────────────────────
 header(26, "REVENUE");
-header(34, "DISTRIBUTION — Refer & Earn  (tokens going OUT)");
+header(34, "DISTRIBUTION, Refer & Earn  (tokens going OUT)");
 header(40, "SINK & BUYBACK  (tokens coming BACK / burned)");
-header(48, "READOUT — Sustainability & Unit Economics");
+header(48, "READOUT, Sustainability & Unit Economics");
 
 const calc = [
   [27, "Payers", "#,##0", (L) => `${L}20*${L}21`, "payers"],
   [28, "   Pro (units)", "#,##0", (L) => `${L}27*${L}22`, "pro"],
   [29, "   Business (units)", "#,##0", (L) => `${L}27*(1-${L}22)`, "biz"],
-  [30, "MRR — monthly revenue (US$)", "$#,##0", (L) => `${L}28*$B$10+${L}29*$B$11`, "mrr"],
-  [31, "ARR — annual revenue (US$)", "$#,##0", (L) => `${L}30*12`, "arr"],
+  [30, "MRR, monthly revenue (US$)", "$#,##0", (L) => `${L}28*$B$10+${L}29*$B$11`, "mrr"],
+  [31, "ARR, annual revenue (US$)", "$#,##0", (L) => `${L}30*12`, "arr"],
   [32, "ARPU (US$/mo)", "$#,##0.00", (L) => `${L}30/${L}27`, "arpu"],
   [35, "Successful referrals / year", "#,##0", (L) => `${L}20*${L}24`, "refs"],
   [36, "Refer&Earn cost / year (US$)", "$#,##0", (L) => `${L}35*$B$12`, "referCost"],
@@ -170,7 +170,7 @@ const calc = [
   [45, "KYRT burned / year", "#,##0", (L) => `${L}44*$B$15`, "kyrtBurned"],
   [46, "Annual deflation (% of supply)", "0.00%", (L) => `${L}45/$B$5`, "deflation"],
   [49, "Incentive program cost / year (US$)", "$#,##0", (L) => `${L}36+${L}42`, "program"],
-  [50, "Coverage — buyback / program", '0.0"x"', (L) => `${L}43/${L}49`, "coverage", true],
+  [50, "Coverage, buyback / program", '0.0"x"', (L) => `${L}43/${L}49`, "coverage", true],
   [51, "CAC per acquired user (US$)", "$#,##0.00", () => `$B$12`, "cac"],
   [52, "LTV per user (US$)", "$#,##0", (L) => `${L}32*$B$16*$B$17`, "ltv"],
   [53, "LTV / CAC", '0.0"x"', (L) => `${L}52/${L}51`, "ltvCac", true],
@@ -202,15 +202,15 @@ const notes = [
   ["", ""],
   ["Honest caveats", "h"],
   ["• STATIC model: the KYRT price actually reacts to the buyback (it rises), so in US$ the buyback repurchases FEWER tokens than shown. Treat the KYRT side as a ceiling.", ""],
-  ["• Pre-market, distributed KYRT is a LIABILITY (a promise), not a cash cost — it becomes a real cost only once there's liquidity. The pool must back the off-chain balances.", ""],
+  ["• Pre-market, distributed KYRT is a LIABILITY (a promise), not a cash cost, it becomes a real cost only once there's liquidity. The pool must back the off-chain balances.", ""],
   ["• 'Paying in KYRT' assumes the user ALREADY earned KYRT (Refer&Earn). That's the flywheel: distribute → spend.", ""],
   ["", ""],
   ["Open decisions (set them and see the impact)", "h"],
-  ["1. Reward per referral (B12) — with LTV/CAC this high, you can raise it. By how much?", ""],
-  ["2. Discount for paying the plan in KYRT (B13) — incentive vs. margin.", ""],
-  ["3. Rewards pool / emission cap (B8) — share of supply reserved for distribution.", ""],
-  ["4. Does paying the plan BURN the KYRT or return it to the treasury? (changes deflation — see row 45).", ""],
-  ["5. Target price (B6) — drives the whole KYRT side; it's a reference, the market decides.", ""],
+  ["1. Reward per referral (B12), with LTV/CAC this high, you can raise it. By how much?", ""],
+  ["2. Discount for paying the plan in KYRT (B13), incentive vs. margin.", ""],
+  ["3. Rewards pool / emission cap (B8), share of supply reserved for distribution.", ""],
+  ["4. Does paying the plan BURN the KYRT or return it to the treasury? (changes deflation, see row 45).", ""],
+  ["5. Target price (B6), drives the whole KYRT side; it's a reference, the market decides.", ""],
 ];
 let lr = 1;
 for (const [txt, kind] of notes) {

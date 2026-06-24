@@ -19,7 +19,7 @@ async function main(): Promise<void> {
   console.log('Final state:')
   console.log(`  mintAuthority:   ${after.mintAuthority?.toBase58() ?? 'null ✅'}`)
   console.log(`  freezeAuthority: ${after.freezeAuthority?.toBase58() ?? 'null ✅'}`)
-  console.log(`🔒 The ${TOKEN.symbol} supply is now IMMUTABLE — no one can mint more.`)
+  console.log(`🔒 The ${TOKEN.symbol} supply is now IMMUTABLE, no one can mint more.`)
 }
 
 main().catch((e) => {
