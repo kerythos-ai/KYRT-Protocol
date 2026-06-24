@@ -2,7 +2,7 @@
 
 **Strategy Speaks Integrity**
 
-$KYRT is the native utility token of the **Kerythos AI** ecosystem — a suite of business software anchored today by a live invoicing product and expanding toward a full financial operating system and an autonomous AI office. $KYRT is the value layer that runs across all of it.
+$KYRT is the native utility token of the **Kerythos AI** ecosystem — an autonomous AI office that architects a suite of business software, anchored today by a live invoicing product and expanding toward a full financial operating system. $KYRT is the value layer that runs across all of it.
 
 ---
 
@@ -10,12 +10,12 @@ $KYRT is the native utility token of the **Kerythos AI** ecosystem — a suite o
 
 | Layer | Product | Status |
 |---|---|---|
+| **Intelligence** | **Kerythos AI** — Department-as-a-Service, the autonomous AI office that architects the ecosystem | **Beta · launching soon** |
 | **Invoicing** | **Kerythos Invoice** — professional invoicing & business management (Flutter + Supabase, Stripe billing live) | **Live** |
 | **Finance** | **Kerythos Ledger** — cross-app cash, receivables & income hub | In development |
 | **Infrastructure** | **Kethosbase** — Kerythos' own multi-tenant backend platform (Go + PostgreSQL) | In construction |
-| **Intelligence** | **Kerythos AI** — Department-as-a-Service, the autonomous AI office | The long-term vision · early access |
 
-The anchor is real and generating revenue today; the rest of the ecosystem extends outward from it. **$KYRT is the currency that ties it together.**
+Kerythos AI is the architect of the ecosystem; Kerythos Invoice is its live anchor — real users and real revenue today. **$KYRT is the currency that ties it all together.**
 
 ---
 
