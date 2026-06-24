@@ -6,40 +6,40 @@ import { createKyrtMint, mintFullSupply, revokeAuthorities } from './actions'
 import { CLUSTER, TOKEN } from './config'
 
 /**
- * Deploy completo do KYRT, fim-a-fim:
- *   1) cria mint + metadados   2) minta supply total   3) revoga authorities
+ * Full end-to-end KYRT deploy:
+ *   1) create mint + metadata   2) mint full supply   3) revoke authorities
  */
 async function main(): Promise<void> {
   const treasury = getTreasuryKeypair()
   const connection = getConnection()
 
-  console.log(`🚀 Deploy do $${TOKEN.symbol} em ${CLUSTER}`)
+  console.log(`🚀 Deploying $${TOKEN.symbol} on ${CLUSTER}`)
   console.log(`   Treasury: ${treasury.publicKey.toBase58()}`)
 
   const balance = await connection.getBalance(treasury.publicKey)
-  console.log(`   Saldo: ${(balance / LAMPORTS_PER_SOL).toFixed(4)} SOL`)
+  console.log(`   Balance: ${(balance / LAMPORTS_PER_SOL).toFixed(4)} SOL`)
   if (balance === 0) {
     throw new Error(
       CLUSTER === 'mainnet-beta'
-        ? 'Treasury sem SOL. Financie a wallet antes do deploy.'
-        : 'Treasury sem SOL. Rode `npm run airdrop` primeiro.',
+        ? 'Treasury has no SOL. Fund the wallet before deploying.'
+        : 'Treasury has no SOL. Run `npm run airdrop` first.',
     )
   }
 
-  console.log('1/3 · Criando mint + metadados...')
+  console.log('1/3 · Creating mint + metadata...')
   const mint = await createKyrtMint(treasury)
   appendEnv('KYRT_MINT_ADDRESS', mint)
   console.log(`      Mint: ${mint}`)
 
-  console.log('2/3 · Mintando supply total...')
+  console.log('2/3 · Minting full supply...')
   await mintFullSupply(treasury, mint)
-  console.log(`      ${TOKEN.totalSupply.toLocaleString('pt-BR')} ${TOKEN.symbol} → treasury`)
+  console.log(`      ${TOKEN.totalSupply.toLocaleString('en-US')} ${TOKEN.symbol} → treasury`)
 
-  console.log('3/3 · Revogando authorities (supply fixo)...')
+  console.log('3/3 · Revoking authorities (fixed supply)...')
   await revokeAuthorities(treasury, mint)
   console.log('      🔒 mint & freeze authority → null')
 
-  console.log('\n✅ Deploy completo! Detalhes: npm run info')
+  console.log('\n✅ Deploy complete! Details: npm run info')
 }
 
 main().catch((e) => {

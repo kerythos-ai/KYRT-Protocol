@@ -2,12 +2,12 @@ import 'dotenv/config'
 
 export type Cluster = 'devnet' | 'testnet' | 'mainnet-beta' | 'localnet'
 
-/** Parâmetros imutáveis do token KYRT. */
+/** Immutable parameters of the KYRT token. */
 export const TOKEN = {
   name: 'Kerythos AI',
   symbol: 'KYRT',
   decimals: 9,
-  /** Supply total em unidades inteiras (antes de aplicar os decimais). */
+  /** Total supply in whole units (before applying decimals). */
   totalSupply: 1_000_000_000n,
 } as const
 
@@ -18,5 +18,5 @@ export const TREASURY_KEYPAIR_PATH =
 export const KYRT_MINT_ADDRESS = process.env.KYRT_MINT_ADDRESS?.trim() || ''
 export const KYRT_METADATA_URI = process.env.KYRT_METADATA_URI?.trim() || ''
 
-/** Supply em unidades-base (com os decimais aplicados) — usado on-chain. */
+/** Supply in base units (with decimals applied) — used on-chain. */
 export const RAW_SUPPLY = TOKEN.totalSupply * 10n ** BigInt(TOKEN.decimals)

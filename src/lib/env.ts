@@ -3,8 +3,8 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 const ENV_PATH = '.env'
 
 /**
- * Define/atualiza uma variável no arquivo .env (cria se não existir).
- * Usado para persistir o endereço do mint após a criação.
+ * Sets/updates a variable in the .env file (creates it if it doesn't exist).
+ * Used to persist the mint address after creation.
  */
 export function appendEnv(key: string, value: string): void {
   let content = existsSync(ENV_PATH) ? readFileSync(ENV_PATH, 'utf-8') : ''

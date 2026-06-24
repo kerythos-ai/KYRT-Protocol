@@ -1,10 +1,11 @@
-"### Security Policy
+# Security Policy
 
-Reporting a Vulnerability:
-We take the security of our infrastructure seriously. If you discover any potential security vulnerability within the $KYRT contract or the Kerythos AI platform, please do not disclose it publicly.
+## Reporting a vulnerability
 
-Contact:
-Please send a detailed report to our technical department at [seu e-mail de suporte].
+We take the security of our infrastructure seriously. If you discover a potential security vulnerability in the $KYRT token, its toolchain, or the Kerythos AI platform, **please do not disclose it publicly**.
 
-Public Issues:
-Publicly opened 'Issues' regarding security vulnerabilities will be closed immediately to maintain the integrity of the ecosystem. We appreciate your cooperation in protecting our community."
+Send a detailed report to **security@kerythos.org**. We will acknowledge your report and keep you informed of the resolution.
+
+## Public issues
+
+Issues opened publicly that describe security vulnerabilities will be closed and handled privately instead, to protect users while a fix is prepared. Thank you for helping protect the ecosystem and its community.

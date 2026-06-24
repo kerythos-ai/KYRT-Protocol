@@ -1,122 +1,122 @@
-# Roteiro de Liquidez — $KYRT
+# Liquidity Roadmap — $KYRT
 
-Como criar e gerir o mercado do $KYRT em uma DEX na Solana após o deploy.
+How to create and manage the $KYRT market on a Solana DEX after deployment.
 
-> Pré-requisito: token deployado, supply mintado e authorities revogadas (ver `docs/MAINNET.md`).
+> Prerequisite: token deployed, supply minted, and authorities revoked (see `docs/MAINNET.md`).
 
 ---
 
-## 1. Escolha da DEX
+## 1. Choosing the DEX
 
-| DEX | Prós | Contras |
+| DEX | Pros | Cons |
 |---|---|---|
-| **Raydium** ⭐ | Maior volume/roteamento, integra com Jupiter, padrão para launches | UI um pouco mais técnica |
-| **Orca** | UX excelente, Whirlpools (CLMM) maduro | Menos "praça" de launch que a Raydium |
-| **Meteora** | DLMM, pools dinâmicas, bom p/ LPs | Curva de aprendizado maior |
+| **Raydium** ⭐ | Highest volume/routing, integrates with Jupiter, the standard for launches | Slightly more technical UI |
+| **Orca** | Excellent UX, mature Whirlpools (CLMM) | Less of a launch hub than Raydium |
+| **Meteora** | DLMM, dynamic pools, great for LPs | Steeper learning curve |
 
-> **Recomendação:** **Raydium** para o pool principal. Todo agregador (Jupiter) roteia por ela, então liquidez na Raydium = $KYRT comprável em qualquer carteira/app Solana.
+> **Recommendation:** **Raydium** for the main pool. Every aggregator (Jupiter) routes through it, so liquidity on Raydium means $KYRT is buyable from any Solana wallet/app.
 
 ---
 
-## 2. Tipo de pool
+## 2. Pool Type
 
-| Tipo | Quando usar |
+| Type | When to use |
 |---|---|
-| **CPMM (Standard AMM)** ⭐ | Launch. Liquidez espalhada em toda a curva (0→∞), zero gestão, à prova de bot-drain. **Comece aqui.** |
-| **CLMM (Concentrated)** | Depois, para eficiência de capital quando houver volume e um market maker ativo |
+| **CPMM (Standard AMM)** ⭐ | Launch. Liquidity spread across the entire curve (0→∞), zero management, bot-drain proof. **Start here.** |
+| **CLMM (Concentrated)** | Later, for capital efficiency once there's volume and an active market maker |
 
-> **Recomendação:** abrir com **CPMM**. Migrar/complementar com CLMM quando o volume justificar.
-
----
-
-## 3. Par de negociação
-
-- **KYRT/SOL** ⭐ — par nativo, mais natural em Solana, melhor roteamento.
-- **KYRT/USDC** — preço estável e legível, bom para um segundo pool depois.
-
-> **Recomendação:** lançar com **KYRT/SOL**. Adicionar **KYRT/USDC** numa segunda fase.
+> **Recommendation:** open with **CPMM**. Migrate to or supplement with CLMM once volume justifies it.
 
 ---
 
-## 4. Preço inicial e profundidade
+## 3. Trading Pair
 
-Numa AMM, o preço é definido **pela razão entre os dois lados** do pool:
+- **KYRT/SOL** ⭐ — the native pair, most natural on Solana, best routing.
+- **KYRT/USDC** — stable, readable pricing, good for a second pool later.
+
+> **Recommendation:** launch with **KYRT/SOL**. Add **KYRT/USDC** in a second phase.
+
+---
+
+## 4. Initial Price and Depth
+
+On an AMM, price is set **by the ratio between the two sides** of the pool:
 
 ```
-preço(KYRT em SOL) = SOL_depositado / KYRT_depositado
-FDV (em SOL)       = preço × supply_total
+price(KYRT in SOL) = SOL_deposited / KYRT_deposited
+FDV (in SOL)       = price × total_supply
 ```
 
-**Cenários de seed (KYRT/SOL, supply 1B), assumindo SOL ≈ US$150:**
+**Seed scenarios (KYRT/SOL, 1B supply), assuming SOL ≈ $150:**
 
-| KYRT no pool | SOL no pool | Preço inicial | FDV aprox. |
+| KYRT in pool | SOL in pool | Initial price | Approx. FDV |
 |---|---|---|---|
-| 200.000.000 | 50 SOL | 0,00000025 SOL (~US$0,0000375) | ~US$37,5 mil |
-| 200.000.000 | 200 SOL | 0,000001 SOL (~US$0,00015) | ~US$150 mil |
-| 400.000.000 | 400 SOL | 0,000001 SOL (~US$0,00015) | ~US$150 mil |
+| 200,000,000 | 50 SOL | 0.00000025 SOL (~$0.0000375) | ~$37.5k |
+| 200,000,000 | 200 SOL | 0.000001 SOL (~$0.00015) | ~$150k |
+| 400,000,000 | 400 SOL | 0.000001 SOL (~$0.00015) | ~$150k |
 
-> Regra prática: **mais SOL no seed = preço mais "firme"** e menos volátil a cada compra. Pouca liquidez = candles violentos e alvo fácil de bots. Dimensione o lado SOL conforme o capital disponível e o FDV-alvo.
+> Rule of thumb: **more SOL in the seed = a "firmer" price** that's less volatile on each buy. Thin liquidity means violent candles and an easy target for bots. Size the SOL side according to available capital and your target FDV.
 
 ---
 
-## 5. LP tokens: queimar vs travar
+## 5. LP Tokens: Burn vs. Lock
 
-Ao criar o pool você recebe **LP tokens** (representam sua parte da liquidez). O que fazer com eles é o sinal de confiança nº 1:
+When you create the pool you receive **LP tokens** (which represent your share of the liquidity). What you do with them is the No. 1 trust signal:
 
-| Estratégia | Efeito | Sinal |
+| Strategy | Effect | Signal |
 |---|---|---|
-| **Burn (queimar)** ⭐ | Liquidez fica presa **para sempre** | Máxima confiança, irreversível |
-| **Lock (travar)** | Time-lock (ex.: 6–12m) via serviço de lock | Confiança alta, reversível no fim |
-| Manter | Você pode remover a liquidez | ❌ Lido como risco de "rug" |
+| **Burn** ⭐ | Liquidity is locked **forever** | Maximum trust, irreversible |
+| **Lock** | Time-lock (e.g., 6–12 months) via a lock service | High trust, reversible at the end |
+| Hold | You can pull the liquidity | ❌ Read as "rug" risk |
 
-> **Recomendação:** **queimar** (ou travar por período longo e público) os LP tokens do pool inicial. Combinado com o mint revogado, isso fecha os dois maiores vetores de desconfiança.
+> **Recommendation:** **burn** (or lock for a long, public period) the initial pool's LP tokens. Combined with the revoked mint, this closes the two biggest vectors of distrust.
 
 ---
 
-## 6. Mecânica deflacionária (buyback & burn)
+## 6. Deflationary Mechanics (buyback & burn)
 
-Operacionalização do modelo do site, alimentado pela **receita dos departamentos de IA**:
+Putting the model into practice, funded by **ecosystem revenue** (invoice app subscriptions, etc.):
 
 ```
-Receita (USDC/SOL)
-   └─► recompra KYRT no mercado (via Jupiter)
-          ├─ 50% → BURN permanente   →  npm run burn -- <qtd>
+Revenue (USDC/SOL)
+   └─► buy back KYRT on the market (via Jupiter)
+          ├─ 50% → permanent BURN   →  npm run burn -- <amount>
           └─ 50% → Expansion Vault (multisig)
 ```
 
-- **Fase 1 (manual):** execuções periódicas assinadas pelo multisig; transparência via tx públicas.
-- **Fase 2 (programática):** um bot/cron que recompra e queima em gatilhos de receita (documentar a fórmula publicamente).
-- A função de burn **já existe** no projeto (`src/actions.ts → burnKyrt`).
+- **Phase 1 (manual):** periodic executions signed by the multisig; transparency via public transactions.
+- **Phase 2 (programmatic):** a bot/cron that buys back and burns on revenue triggers (publish the formula publicly).
+- The burn function **already exists** in the project (`src/actions.ts → burnKyrt`).
 
 ---
 
-## 7. Fair launch & anti-bot
+## 7. Fair Launch & Anti-Bot
 
-- **Atomicidade:** adicionar liquidez **e** queimar/travar o LP o mais próximo possível (mesmo bloco/transação) para não dar janela a sniping.
-- **Sem alocação oculta:** se for fair launch puro, todo o supply visível no pool (ver Opção A em `docs/MAINNET.md`).
-- **Divulgação:** publicar o mint address só no momento do launch; cuidado com bots que escutam mempool/novos pools.
-- Considerar ferramentas de launch com proteção anti-sniper se o evento for muito aguardado.
+- **Atomicity:** add liquidity **and** burn/lock the LP as close together as possible (same block/transaction) so there's no window for sniping.
+- **No hidden allocation:** no team/investor allocation; the liquidity portion and the community Rewards pool are public and auditable (see `docs/TOKENOMICS.md`).
+- **Disclosure:** publish the mint address only at launch time; watch out for bots that listen to the mempool/new pools.
+- Consider launch tools with anti-sniper protection if the event is highly anticipated.
 
 ---
 
-## 8. Pós-pool: visibilidade
+## 8. Post-Pool: Visibility
 
-| Plataforma | Ação |
+| Platform | Action |
 |---|---|
-| **Jupiter** | Roteamento automático ao detectar o pool; submeter à token list p/ logo verificado |
-| **DexScreener** | Aparece sozinho; **reivindicar** o perfil e adicionar logo/links |
-| **Birdeye** | Idem; reivindicar e enriquecer |
-| **CoinGecko / CMC** | Aplicação manual (requer histórico de volume/liquidez) |
+| **Jupiter** | Automatic routing once it detects the pool; submit to the token list for a verified logo |
+| **DexScreener** | Shows up on its own; **claim** the profile and add logo/links |
+| **Birdeye** | Same; claim and enrich |
+| **CoinGecko / CMC** | Manual application (requires a track record of volume/liquidity) |
 
 ---
 
-## 9. Sequência resumida
+## 9. Summary Sequence
 
-1. Deploy concluído (`docs/MAINNET.md`)
-2. Definir FDV-alvo → calcular lados do pool (§4)
-3. Criar pool **KYRT/SOL CPMM** na Raydium
-4. **Queimar/travar** os LP tokens
-5. Verificar roteamento no Jupiter
-6. Reivindicar DexScreener/Birdeye
-7. Anunciar mint address nos canais oficiais
-8. Ligar o ciclo de **buyback & burn** (§6)
+1. Deployment complete (`docs/MAINNET.md`)
+2. Set target FDV → calculate the pool sides (§4)
+3. Create the **KYRT/SOL CPMM** pool on Raydium
+4. **Burn/lock** the LP tokens
+5. Verify routing on Jupiter
+6. Claim DexScreener/Birdeye
+7. Announce the mint address on official channels
+8. Turn on the **buyback & burn** cycle (§6)

@@ -1,97 +1,99 @@
 # $KYRT — Kerythos AI
 
-Token **SPL** da Kerythos AI na **Solana**. Supply fixo, queimável, sem programa custom — usa o SPL Token Program nativo (auditado) + metadados Metaplex, tudo orquestrado por scripts TypeScript.
+Kerythos AI's **SPL** token on **Solana**. Fixed supply, burnable, no custom program — it uses the native (audited) SPL Token Program + Metaplex metadata, all orchestrated by TypeScript scripts.
 
 ## Tokenomics
 
-| Parâmetro | Valor |
+| Parameter | Value |
 |---|---|
-| Nome | Kerythos AI |
-| Símbolo | `KYRT` |
-| Decimais | 9 |
-| Supply total | 1.000.000.000 (1 bilhão) |
-| Supply fixo | ✅ mint authority revogada (null) |
-| Queimável | ✅ nativo do SPL |
-| Congelável | ❌ freeze authority revogada (null) |
+| Name | Kerythos AI |
+| Symbol | `KYRT` |
+| Decimals | 9 |
+| Total supply | 1,000,000,000 (1 billion) |
+| Fixed supply | ✅ mint authority revoked (null) |
+| Burnable | ✅ native to SPL |
+| Freezable | ❌ freeze authority revoked (null) |
 
-## Pré-requisitos
+> Full allocation (liquidity fair launch + **15% community Rewards pool**) and economic parameters are in [`docs/TOKENOMICS.md`](docs/TOKENOMICS.md). The **mainnet** deploy will use a distribution script (liquidity + rewards pool), unlike the devnet dry-run, which minted 100% into a single treasury.
 
-- Node.js ≥ 20 (testado em 24)
-- Nada de Rust/CLI da Solana — tudo roda em TypeScript.
+## Prerequisites
+
+- Node.js ≥ 20 (tested on 24)
+- No Rust or Solana CLI — everything runs in TypeScript.
 
 ## Setup
 
 ```bash
 npm install
-cp .env.example .env      # no Windows: copy .env.example .env
+cp .env.example .env      # on Windows: copy .env.example .env
 ```
 
-Ajuste o `.env` se quiser (o padrão já aponta para **devnet**). Uma keypair de treasury é gerada automaticamente em `.keys/treasury.json` no primeiro comando — **nunca** committe esse arquivo.
+Adjust `.env` if you like (the default already points to **devnet**). A treasury keypair is generated automatically at `.keys/treasury.json` on the first command — **never** commit this file.
 
-## Fluxo de deploy (devnet)
+## Deploy flow (devnet)
 
 ```bash
-npm run airdrop        # pega 2 SOL de teste na treasury (só devnet/testnet)
-npm run deploy         # cria mint + metadados, minta 1B, revoga authorities
-npm run info           # mostra o estado on-chain + link do explorer
+npm run airdrop        # grabs 2 test SOL for the treasury (devnet/testnet only)
+npm run deploy         # creates mint + metadata, mints 1B, revokes authorities
+npm run info           # shows on-chain state + explorer link
 ```
 
-Ou passo a passo, para entender cada etapa:
+Or step by step, to understand each stage:
 
 ```bash
-npm run create         # 1. cria o mint do KYRT (+ metadados)  → grava no .env
-npm run mint           # 2. minta o supply total para a treasury
-npm run revoke         # 3. revoga mint + freeze authority (supply imutável)
+npm run create         # 1. creates the KYRT mint (+ metadata)  → writes to .env
+npm run mint           # 2. mints the total supply to the treasury
+npm run revoke         # 3. revokes mint + freeze authority (immutable supply)
 ```
 
-## Comandos
+## Commands
 
-| Comando | O que faz |
+| Command | What it does |
 |---|---|
-| `npm run airdrop [sol]` | Airdrop de SOL de teste na treasury (devnet/testnet) |
-| `npm run create` | Cria o mint do KYRT com metadados; grava `KYRT_MINT_ADDRESS` no `.env` |
-| `npm run mint` | Minta o supply total (1B) para a ATA da treasury |
-| `npm run revoke` | Revoga as authorities → supply fixo e imutável |
-| `npm run burn -- <qtd>` | Queima `<qtd>` KYRT da treasury (deflação) |
-| `npm run info` | Estado on-chain do token + link do explorer |
-| `npm run deploy` | Pipeline completo: create → mint → revoke |
-| `npm run typecheck` | Checagem de tipos (tsc) |
+| `npm run airdrop [sol]` | Airdrops test SOL to the treasury (devnet/testnet) |
+| `npm run create` | Creates the KYRT mint with metadata; writes `KYRT_MINT_ADDRESS` to `.env` |
+| `npm run mint` | Mints the total supply (1B) to the treasury ATA |
+| `npm run revoke` | Revokes the authorities → fixed, immutable supply |
+| `npm run burn -- <amount>` | Burns `<amount>` KYRT from the treasury (deflationary) |
+| `npm run info` | Token's on-chain state + explorer link |
+| `npm run deploy` | Full pipeline: create → mint → revoke |
+| `npm run typecheck` | Type checking (tsc) |
 
-## Estrutura
+## Structure
 
 ```
 src/
-├── config.ts              # parâmetros do token + cluster (fonte única)
-├── actions.ts             # lógica on-chain (create/mint/revoke/burn/read)
+├── config.ts              # token parameters + cluster (single source)
+├── actions.ts             # on-chain logic (create/mint/revoke/burn/read)
 ├── lib/
-│   ├── connection.ts      # RPC/Connection por cluster
-│   ├── keypair.ts         # carregar/gerar keypair da treasury
-│   ├── umi.ts             # instância Metaplex Umi (metadados)
-│   └── env.ts             # persistência do mint no .env
-├── airdrop.ts             # CLIs finos — um por comando
+│   ├── connection.ts      # RPC/Connection per cluster
+│   ├── keypair.ts         # load/generate the treasury keypair
+│   ├── umi.ts             # Metaplex Umi instance (metadata)
+│   └── env.ts             # persist the mint to .env
+├── airdrop.ts             # thin CLIs — one per command
 ├── create-token.ts
 ├── mint-supply.ts
 ├── revoke-authorities.ts
 ├── burn.ts
 ├── token-info.ts
-└── deploy.ts              # orquestra o pipeline completo
-assets/metadata.json       # metadados off-chain (hospede em Arweave/IPFS p/ prod)
+└── deploy.ts              # orchestrates the full pipeline
+assets/metadata.json       # off-chain metadata (host on Arweave/IPFS for prod)
 ```
 
-## Segurança
+## Security
 
-- 🔑 A keypair da treasury vive em `.keys/` (no `.gitignore`). Faça backup offline.
-- 🧊 Em produção, transfira as authorities para um **multisig** (Squads) **antes** de revogar, ou revogue direto para garantir supply fixo.
-- 🌐 Use um RPC dedicado (`SOLANA_RPC_URL`) em mainnet — o público tem rate limit.
+- 🔑 The treasury keypair lives in `.keys/` (in `.gitignore`). Back it up offline.
+- 🧊 In production, transfer the authorities to a **multisig** (Squads) **before** revoking, or revoke outright to guarantee a fixed supply.
+- 🌐 Use a dedicated RPC (`SOLANA_RPC_URL`) on mainnet — the public one is rate-limited.
 
-## Próximos passos (mainnet)
+## Next steps (mainnet)
 
-Planejamento detalhado em:
-- **[`docs/MAINNET.md`](docs/MAINNET.md)** — tokenomics, custódia (multisig Squads), custos, checklist go-live
-- **[`docs/LIQUIDITY.md`](docs/LIQUIDITY.md)** — DEX, tipo de pool, preço inicial, burn/lock de LP, buyback & burn
+Detailed planning in:
+- **[`docs/MAINNET.md`](docs/MAINNET.md)** — tokenomics, custody (Squads multisig), costs, go-live checklist
+- **[`docs/LIQUIDITY.md`](docs/LIQUIDITY.md)** — DEX, pool type, initial price, LP burn/lock, buyback & burn
 
-Resumo:
-1. Hospedar `assets/metadata.json` + logo PNG 512×512 no Arweave/IPFS → preencher `KYRT_METADATA_URI`.
-2. `SOLANA_CLUSTER=mainnet-beta` + RPC dedicado; financiar a treasury com SOL real.
-3. Authorities para multisig/hardware wallet; `npm run deploy`.
-4. Criar pool na Raydium e **queimar/travar** o LP.
+Summary:
+1. Host `assets/metadata.json` + a 512×512 PNG logo on Arweave/IPFS → fill in `KYRT_METADATA_URI`.
+2. Set `SOLANA_CLUSTER=mainnet-beta` + a dedicated RPC; fund the treasury with real SOL.
+3. Move the authorities to a multisig/hardware wallet; run `npm run deploy`.
+4. Create a pool on Raydium and **burn/lock** the LP.

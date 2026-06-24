@@ -4,7 +4,7 @@ import { fromWeb3JsKeypair } from '@metaplex-foundation/umi-web3js-adapters'
 import type { Keypair } from '@solana/web3.js'
 import { getRpcUrl } from './connection'
 
-/** Cria uma instância Umi autenticada com o keypair informado como identity. */
+/** Creates a Umi instance authenticated with the given keypair as the identity. */
 export function getUmi(payer: Keypair): Umi {
   const umi = createUmi(getRpcUrl())
   const signer = createSignerFromKeypair(umi, fromWeb3JsKeypair(payer))

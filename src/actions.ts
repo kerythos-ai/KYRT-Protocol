@@ -16,9 +16,9 @@ import { getUmi } from './lib/umi'
 import { KYRT_METADATA_URI, RAW_SUPPLY, TOKEN } from './config'
 
 /**
- * Cria o mint do KYRT (SPL Token clássico) já com metadados Metaplex.
- * A mint e a freeze authority ficam, por ora, com a treasury.
- * @returns endereço (base58) do mint criado.
+ * Creates the KYRT mint (classic SPL Token) with Metaplex metadata included.
+ * The mint and freeze authorities stay with the treasury for now.
+ * @returns base58 address of the created mint.
  */
 export async function createKyrtMint(treasury: Keypair): Promise<string> {
   const umi = getUmi(treasury)
@@ -36,7 +36,7 @@ export async function createKyrtMint(treasury: Keypair): Promise<string> {
   return mint.publicKey.toString()
 }
 
-/** Minta o supply total do KYRT para a ATA da treasury. @returns assinatura da tx. */
+/** Mints the full KYRT supply to the treasury's ATA. @returns the tx signature. */
 export async function mintFullSupply(treasury: Keypair, mintAddress: string): Promise<string> {
   const connection = getConnection()
   const mint = new PublicKey(mintAddress)
@@ -45,8 +45,8 @@ export async function mintFullSupply(treasury: Keypair, mintAddress: string): Pr
 }
 
 /**
- * Revoga as authorities do mint (→ null), tornando o supply imutável.
- * Idempotente: ignora authorities já revogadas.
+ * Revokes the mint authorities (→ null), making the supply immutable.
+ * Idempotent: skips authorities that are already revoked.
  */
 export async function revokeAuthorities(treasury: Keypair, mintAddress: string): Promise<void> {
   const connection = getConnection()
@@ -61,7 +61,7 @@ export async function revokeAuthorities(treasury: Keypair, mintAddress: string):
   }
 }
 
-/** Queima `amountWhole` KYRT (unidades inteiras) da ATA da treasury. @returns assinatura. */
+/** Burns `amountWhole` KYRT (whole units) from the treasury's ATA. @returns the signature. */
 export async function burnKyrt(
   treasury: Keypair,
   mintAddress: string,
@@ -74,7 +74,7 @@ export async function burnKyrt(
   return burn(connection, treasury, ata, mint, treasury, raw)
 }
 
-/** Lê o estado on-chain do mint. */
+/** Reads the on-chain state of the mint. */
 export async function readMint(mintAddress: string): Promise<Mint> {
   return getMint(getConnection(), new PublicKey(mintAddress))
 }

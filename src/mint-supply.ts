@@ -4,17 +4,17 @@ import { KYRT_MINT_ADDRESS, TOKEN } from './config'
 
 async function main(): Promise<void> {
   if (!KYRT_MINT_ADDRESS) {
-    throw new Error('KYRT_MINT_ADDRESS vazio. Rode `npm run create` primeiro.')
+    throw new Error('KYRT_MINT_ADDRESS is empty. Run `npm run create` first.')
   }
   const treasury = getTreasuryKeypair()
 
-  console.log(`Mintando ${TOKEN.totalSupply.toLocaleString('pt-BR')} ${TOKEN.symbol} para a treasury...`)
+  console.log(`Minting ${TOKEN.totalSupply.toLocaleString('en-US')} ${TOKEN.symbol} to the treasury...`)
   const sig = await mintFullSupply(treasury, KYRT_MINT_ADDRESS)
-  console.log(`✅ Supply mintado. Tx: ${sig}`)
+  console.log(`✅ Supply minted. Tx: ${sig}`)
 
   const info = await readMint(KYRT_MINT_ADDRESS)
-  console.log(`   Supply on-chain (raw): ${info.supply}`)
-  console.log('   Próximo passo: npm run revoke (torna o supply fixo)')
+  console.log(`   On-chain supply (raw): ${info.supply}`)
+  console.log('   Next step: npm run revoke (makes the supply fixed)')
 }
 
 main().catch((e) => {

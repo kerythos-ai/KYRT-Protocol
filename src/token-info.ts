@@ -1,9 +1,9 @@
 import { readMint } from './actions'
 import { CLUSTER, KYRT_MINT_ADDRESS, TOKEN } from './config'
 
-/** Formata unidades-base para unidades inteiras legíveis. */
+/** Formats base units into readable whole units. */
 function fmt(raw: bigint, decimals: number): string {
-  return (raw / 10n ** BigInt(decimals)).toLocaleString('pt-BR')
+  return (raw / 10n ** BigInt(decimals)).toLocaleString('en-US')
 }
 
 function explorerUrl(mint: string): string {
@@ -13,16 +13,16 @@ function explorerUrl(mint: string): string {
 
 async function main(): Promise<void> {
   if (!KYRT_MINT_ADDRESS) {
-    throw new Error('KYRT_MINT_ADDRESS vazio. Rode `npm run create` primeiro.')
+    throw new Error('KYRT_MINT_ADDRESS is empty. Run `npm run create` first.')
   }
   const info = await readMint(KYRT_MINT_ADDRESS)
 
   console.log(`=== ${TOKEN.name} ($${TOKEN.symbol}) — ${CLUSTER} ===`)
   console.log(`Mint:             ${KYRT_MINT_ADDRESS}`)
-  console.log(`Decimais:         ${info.decimals}`)
+  console.log(`Decimals:         ${info.decimals}`)
   console.log(`Supply:           ${fmt(info.supply, info.decimals)} ${TOKEN.symbol}`)
   console.log(`Supply (raw):     ${info.supply}`)
-  console.log(`Mint authority:   ${info.mintAuthority?.toBase58() ?? 'null 🔒 (supply fixo)'}`)
+  console.log(`Mint authority:   ${info.mintAuthority?.toBase58() ?? 'null 🔒 (fixed supply)'}`)
   console.log(`Freeze authority: ${info.freezeAuthority?.toBase58() ?? 'null 🔒'}`)
   console.log(`Explorer:         ${explorerUrl(KYRT_MINT_ADDRESS)}`)
 }

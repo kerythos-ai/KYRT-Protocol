@@ -1,125 +1,118 @@
-# Plano de Mainnet — $KYRT
+# Mainnet Plan — $KYRT
 
-Checklist de segurança, custódia e go-live para levar o $KYRT de devnet para **mainnet-beta**.
+Security, custody, and go-live checklist for moving $KYRT from devnet to **mainnet-beta**.
 
-> ⚠️ Em mainnet não há "desfazer". Cada passo abaixo é uma decisão definitiva. Nada de pressa.
+> ⚠️ On mainnet there is no "undo." Each step below is a final decision. Don't rush.
 
 ---
 
-## 1. Modelo de tokenomics — ✅ Opção A (fair launch puro)
+## 1. Tokenomics model — liquidity fair launch + Rewards pool
 
-> **Decidido (2026-06-23):** **fair launch puro** — 100% do supply (1B) entra via pool de liquidez, **sem reservas no genesis** (sem equipe/vault pré-minerado). O `deploy.ts` atual (minta 100% na treasury → revoga authorities) já está alinhado; a treasury fornece tudo ao pool. O Expansion Vault é abastecido **apenas via buyback** pós-launch.
+> **Updated (2026-06-23):** with the adoption of Refer&Earn (utility in the invoice app), the tokenomics evolved from "pure fair launch" to **liquidity fair launch (~85%) + community Rewards pool (15% = 150M)** — with no team/investor allocation. Parameters in [`TOKENOMICS.md`](TOKENOMICS.md).
+>
+> ⚠️ **Implication for the deploy:** mainnet needs a **distribution script** that mints to the liquidity pool **and** to the rewards pool, unlike the devnet dry-run (which minted 100% into a single treasury). The Expansion Vault is funded via post-launch buyback.
 
-O site (kerythos.org) descreve três mecânicas. Tradução técnica para Solana:
+### Genesis distribution (decided)
 
-| Mecânica (site) | Implementação on-chain |
-|---|---|
-| **100% Fair Launch** | Todo o supply entra via pool de liquidez; sem pré-venda/alocação privada |
-| **Deflacionário (buyback & burn)** | Receita do negócio recompra KYRT no mercado → 50% `burn` (já temos `npm run burn`) |
-| **Expansion Vault** | 50% do recomprado vai para um cofre multisig que financia projetos |
-
-⚠️ **Tensão a resolver:** "100% fair launch" normalmente significa **zero** alocação reservada (equipe/vault no genesis). O Expansion Vault então só pode ser abastecido **depois**, via buyback — não com tokens pré-minerados. Se a intenção for reservar tokens no genesis (ex.: vault/equipe), então **não** é 100% fair launch e o texto do site precisa mudar. **Precisamos travar isto antes do deploy** (ver §8).
-
-### Distribuição — duas opções
-
-**Opção A — Fair launch puro (alinha com o texto atual do site)**
-| Bucket | % | KYRT |
-|---|---|---|
-| Liquidez (pool) | 100% | 1.000.000.000 |
-| Vault/Equipe (genesis) | 0% | 0 — abastecidos só via buyback |
-
-**Opção B — Fair launch + reservas (mais comum na prática)**
-| Bucket | % | KYRT | Custódia |
+| Bucket | % | KYRT | Custody |
 |---|---|---|---|
-| Liquidez (pool) | 40% | 400.000.000 | LP queimado/locked |
-| Expansion Vault | 35% | 350.000.000 | Multisig + vesting |
-| Comunidade/Recompensas | 15% | 150.000.000 | Multisig |
-| Equipe & Advisors | 10% | 100.000.000 | Vesting (cliff 12m + linear 24m) |
+| **Liquidity (pool)** | ~85% | ~850,000,000 | LP burned/locked |
+| **Rewards Pool (community)** | 15% | 150,000,000 | Multisig — distributed via Refer&Earn |
+| Team / investor | 0% | 0 | no allocation |
+| Expansion Vault | 0% at genesis | — | funded only via post-launch buyback |
 
-> Recomendação: se a narrativa de "fair launch" é central pro marketing, vá de **A** e seja rigoroso (abastece vault via buyback). Se precisa de runway/tesouraria, vá de **B** e ajuste o texto do site para "fair launch da liquidez + reservas transparentes e travadas".
+The three mechanics, on Solana:
 
----
-
-## 2. Gap entre o código atual e a mainnet
-
-O `deploy.ts` de hoje faz o caminho **devnet/Opção A simplificado**: minta 100% para **uma** treasury e revoga as authorities. Para mainnet, dependendo da opção:
-
-- [ ] **Opção B** → criar `src/distribute.ts`: minta para a treasury e distribui para as carteiras de cada bucket **antes** de revogar a mint authority.
-- [ ] **Vesting** → vault/equipe não devem ficar em carteira simples. Usar **Streamflow** ou **Bonfida Token Vesting** (contratos de vesting auditados) ou cofres Squads com desbloqueio temporizado.
-- [ ] **Metadados imutáveis** → hospedar `assets/metadata.json` + logo PNG no **Arweave** (via Irys/Metaplex) ou **IPFS** e fixar `KYRT_METADATA_URI`. Depois, tornar os metadados imutáveis (`isMutable: false`).
-- [ ] **Logo** → exportar `logo-kyrt.svg` para **PNG 512×512** (wallets/explorers não renderizam SVG).
-
----
-
-## 3. Segurança & custódia das authorities
-
-A treasury de devnet é uma keypair em arquivo — **inaceitável** para mainnet. Plano:
-
-1. **Hardware wallet** (Ledger) como signatária, ou
-2. **Multisig Squads** (https://squads.so) — padrão de mercado em Solana — exigindo M-de-N assinaturas para mover fundos do vault/tesouraria.
-
-Sequência recomendada de authorities:
-- **Mint authority** → **revogar (null)** após mintar. Supply fixo é o maior sinal de confiança e elimina o vetor "dev cunhou mais". *(É o que o `revoke` já faz.)*
-- **Freeze authority** → **revogar (null)**. Token não-congelável = mais credibilidade DeFi.
-- **Update authority dos metadados** → transferir para o **multisig**, depois tornar imutável quando o branding estabilizar.
-- **Vault / tesouraria** → **multisig Squads** (nunca uma única chave).
-
----
-
-## 4. Custos estimados (mainnet, em SOL)
-
-Valores aproximados — variam com a rede e o programa do pool.
-
-| Item | Custo (SOL) |
+| Mechanic | On-chain implementation |
 |---|---|
-| Conta do mint (rent) | ~0,0015 |
-| Conta de metadados (Metaplex) | ~0,006–0,015 |
-| ATAs (por carteira) | ~0,002 cada |
-| Upload Arweave (JSON + PNG) | ~0,01–0,05 |
-| Taxas de transação | desprezível (~0,000005/tx) |
-| Criação de pool Raydium | ~0,15–0,3 (rent + taxa) |
-| **Subtotal operacional** | **< 0,5 SOL** |
-| **+ Capital de liquidez** | ver `docs/LIQUIDITY.md` (à parte) |
+| **Liquidity fair launch** | ~85% of supply enters via the liquidity pool; no presale/private allocation |
+| **Buyback & Burn** | ecosystem revenue buys back KYRT → 50% `burn` (`npm run burn`) / 50% Vault |
+| **Expansion Vault** | half of the bought-back amount goes to a multisig vault that funds the ecosystem |
 
-> Recomendado: manter **2–3 SOL** na treasury operacional, além do capital de liquidez.
-> **RPC dedicado** (Helius/QuickNode/Triton) é obrigatório em mainnet — o público tem rate-limit. ~US$0–50/mês nos planos iniciais.
+> The exact split between liquidity and operational treasury within the ~85% is still to be defined. Parameters in [`TOKENOMICS.md`](TOKENOMICS.md).
 
 ---
 
-## 5. Checklist go-live
+## 2. Gap between the current code and mainnet
 
-**Pré-deploy**
-- [ ] Tokenomics travada (Opção A ou B) e texto do site batendo
-- [ ] Logo PNG 512×512 + `metadata.json` no Arweave/IPFS → `KYRT_METADATA_URI`
-- [ ] Multisig Squads criado; signatários e threshold definidos
-- [ ] `SOLANA_CLUSTER=mainnet-beta` + `SOLANA_RPC_URL` dedicado no `.env`
-- [ ] Treasury (hardware/multisig) financiada com SOL
-- [ ] **Dry-run completo em devnet idêntico ao plano de mainnet**
+Today's `deploy.ts` (devnet dry-run) mints 100% to **one** treasury and revokes the authorities. For mainnet, with the rewards pool:
+
+- [ ] Create `src/distribute.ts`: mint to the **liquidity** wallet and to the **rewards pool (multisig)** **before** revoking the mint authority.
+- [ ] **Vesting** → vault/team should not sit in a plain wallet. Use **Streamflow** or **Bonfida Token Vesting** (audited vesting contracts) or Squads vaults with time-locked unlocking.
+- [ ] **Immutable metadata** → host `assets/metadata.json` + logo PNG on **Arweave** (via Irys/Metaplex) or **IPFS** and pin `KYRT_METADATA_URI`. Then make the metadata immutable (`isMutable: false`).
+- [ ] **Logo** → export `logo-kyrt.svg` to **PNG 512×512** (wallets/explorers don't render SVG).
+
+---
+
+## 3. Security & custody of the authorities
+
+The devnet treasury is a keypair in a file — **unacceptable** for mainnet. Plan:
+
+1. **Hardware wallet** (Ledger) as signer, or
+2. **Squads multisig** (https://squads.so) — the market standard on Solana — requiring M-of-N signatures to move funds from the vault/treasury.
+
+Recommended authority sequence:
+- **Mint authority** → **revoke (null)** after minting. A fixed supply is the strongest trust signal and eliminates the "dev minted more" vector. *(This is what `revoke` already does.)*
+- **Freeze authority** → **revoke (null)**. A non-freezable token = more DeFi credibility.
+- **Metadata update authority** → transfer to the **multisig**, then make it immutable once the branding stabilizes.
+- **Vault / treasury** → **Squads multisig** (never a single key).
+
+---
+
+## 4. Estimated costs (mainnet, in SOL)
+
+Approximate figures — they vary with the network and the pool program.
+
+| Item | Cost (SOL) |
+|---|---|
+| Mint account (rent) | ~0.0015 |
+| Metadata account (Metaplex) | ~0.006–0.015 |
+| ATAs (per wallet) | ~0.002 each |
+| Arweave upload (JSON + PNG) | ~0.01–0.05 |
+| Transaction fees | negligible (~0.000005/tx) |
+| Raydium pool creation | ~0.15–0.3 (rent + fee) |
+| **Operational subtotal** | **< 0.5 SOL** |
+| **+ Liquidity capital** | see `docs/LIQUIDITY.md` (separate) |
+
+> Recommended: keep **2–3 SOL** in the operational treasury, on top of the liquidity capital.
+> A **dedicated RPC** (Helius/QuickNode/Triton) is mandatory on mainnet — the public one is rate-limited. ~$0–50/month on the entry-level plans.
+
+---
+
+## 5. Go-live checklist
+
+**Pre-deploy**
+- [ ] Tokenomics locked (see `TOKENOMICS.md`) and site/README copy matching
+- [ ] Logo PNG 512×512 + `metadata.json` on Arweave/IPFS → `KYRT_METADATA_URI`
+- [ ] Squads multisig created; signers and threshold defined
+- [ ] `SOLANA_CLUSTER=mainnet-beta` + dedicated `SOLANA_RPC_URL` in `.env`
+- [ ] Treasury (hardware/multisig) funded with SOL
+- [ ] **Full dry-run on devnet identical to the mainnet plan**
 
 **Deploy**
-- [ ] `npm run create` (mint + metadados)
-- [ ] `npm run mint` (supply total) — ou `npm run distribute` (Opção B)
-- [ ] Conferir saldos/distribuição
+- [ ] `npm run create` (mint + metadata)
+- [ ] `npm run distribute` (liquidity + rewards pool) — see §2
+- [ ] Check balances/distribution
 - [ ] `npm run revoke` (mint + freeze → null)
-- [ ] `npm run info` e validar no explorer
+- [ ] `npm run info` and validate on the explorer
 
-**Liquidez** → seguir `docs/LIQUIDITY.md`
+**Liquidity** → follow `docs/LIQUIDITY.md`
 
-**Pós-deploy**
-- [ ] Verificar token no **Solana Explorer / Solscan**
-- [ ] Submeter à **Jupiter token list** (verificação de logo/metadados)
-- [ ] Reivindicar perfil no **Birdeye** e **DexScreener**
-- [ ] Aplicar no **CoinGecko** e **CoinMarketCap**
-- [ ] Anunciar contrato (mint address) nos canais oficiais
+**Post-deploy**
+- [ ] Verify the token on **Solana Explorer / Solscan**
+- [ ] Submit to the **Jupiter token list** (logo/metadata verification)
+- [ ] Claim the profile on **Birdeye** and **DexScreener**
+- [ ] Apply to **CoinGecko** and **CoinMarketCap**
+- [ ] Announce the contract (mint address) on the official channels
 
 ---
 
-## 6. Riscos & mitigações
+## 6. Risks & mitigations
 
-| Risco | Mitigação |
+| Risk | Mitigation |
 |---|---|
-| Chave da treasury vazada | Hardware wallet + multisig; nunca commitar `.keys/` |
-| Metadados mutáveis explorados | Tornar imutável após estabilizar |
-| Sniping de bots no launch | Adicionar liquidez e queimar/travar LP na **mesma** transação/bloco |
-| "Rug" percebido | Supply fixo (mint revogado) + LP queimado/locked + vault em multisig público |
-| RPC instável no launch | RPC dedicado + fallback |
+| Leaked treasury key | Hardware wallet + multisig; never commit `.keys/` |
+| Mutable metadata exploited | Make it immutable once stabilized |
+| Bot sniping at launch | Add liquidity and burn/lock the LP in the **same** transaction/block |
+| Perceived "rug" | Fixed supply (mint revoked) + LP burned/locked + vault in a public multisig |
+| Unstable RPC at launch | Dedicated RPC + fallback |

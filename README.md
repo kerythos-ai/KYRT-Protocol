@@ -1,44 +1,87 @@
-$KYRT - Kerythos AI Token
-Strategy Speaks Integrity
+# $KYRT — Kerythos AI
 
-$KYRT is the sovereign utility asset of the Kerythos AI ecosystem, an Autonomous AI Office infrastructure specializing in "Department-as-a-Service" (DaaS) for global enterprises.
+**Strategy Speaks Integrity**
 
-Core Value Proposition
-Unlike speculative digital assets, $KYRT's value is fundamentally linked to real-world corporate operational efficiency. We architect, install, and maintain entire autonomous AI departments within established companies in the Logistics and IT sectors.
+$KYRT is the native utility token of the **Kerythos AI** ecosystem — a suite of business software anchored today by a live invoicing product and expanding toward a full financial operating system and an autonomous AI office. $KYRT is the value layer that runs across all of it.
 
-Our flagship Operational Integrity Suite—featuring agents Atlas, Ethos, and Concordia—automates complex project management, compliance, and internal mediation 24/7.
+---
 
-The Sovereign Buy-back Protocol
-The $KYRT economy is powered by a high-integrity, performance-linked model:
+## The ecosystem
 
-Revenue Generation: A fixed percentage (10% to 20%) of the net profit from every corporate installation and maintenance contract is allocated to the protocol.
+| Layer | Product | Status |
+|---|---|---|
+| **Invoicing** | **Kerythos Invoice** — professional invoicing & business management (Flutter + Supabase, Stripe billing live) | **Live** |
+| **Finance** | **Kerythos Ledger** — cross-app cash, receivables & income hub | In development |
+| **Infrastructure** | **Kethosbase** — Kerythos' own multi-tenant backend platform (Go + PostgreSQL) | In construction |
+| **Intelligence** | **Kerythos AI** — Department-as-a-Service, the autonomous AI office | The long-term vision · early access |
 
-Market Repurchase: These funds are used to purchase $KYRT tokens directly from the open market on the Solana blockchain.
+The anchor is real and generating revenue today; the rest of the ecosystem extends outward from it. **$KYRT is the currency that ties it together.**
 
-Deflationary Distribution:
+---
 
-50% Immediate Burn: Permanently destroyed to increase scarcity.
+## What $KYRT is for
 
-50% Expansion Vault: Locked for 24 months to fund R&D and scaling.
+The token's first home is the **Invoice** product, designed to bring everyday business users into crypto **gradually — no seed phrase, no gas friction**:
 
-Launch Integrity
-Network: Solana (Mainnet).
+- **Earn** — users receive $KYRT through *Refer & Earn*: invite a business, and both sides earn when the first invoice is paid. Credited first as an in-app balance, claimed on-chain when the user is ready.
+- **Spend** — pay your subscription in $KYRT for a discount.
+- **Grow** — the same balance becomes the entry point to the wider ecosystem (Ledger, and beyond).
 
-Launch Model: 100% Fair Launch (No presale, no insiders).
+Utility first: the token is **earned through real use, not sold**.
 
-Governance: Centrally architected for maximum operational agility.
+---
 
+## Tokenomics
 
---
-Proprietary Notice & Copyright
+- **Network:** Solana (SPL Token) · **Decimals:** 9
+- **Total supply:** 1,000,000,000 — **fixed**. Mint authority and freeze authority are permanently revoked.
+- **Allocation:** fair launch of the liquidity + a **community Rewards pool (15%)** that funds Refer & Earn. **No team or investor allocation.**
+- **Buyback & Burn:** a portion of ecosystem revenue repurchases $KYRT on the open market → **50% burned** (permanent deflation) / **50% to the Expansion Vault** (funds ecosystem growth).
+
+Parameters and the full economic model: [`docs/TOKENOMICS.md`](docs/TOKENOMICS.md) · [`docs/KYRT_Tokenomics.xlsx`](docs/KYRT_Tokenomics.xlsx).
+
+---
+
+## Launch integrity
+
+- **Fair launch** — no presale, no insider allocation, no hidden mint authority.
+- **Immutable supply** — once deployed, the mint authority is permanently revoked; scarcity is guaranteed by the code itself.
+- **Transparent & auditable** — the entire token toolchain lives in this repository. $KYRT has been deployed and verified on Solana **devnet** as a public dry-run; **mainnet is planned** and gated by the ecosystem milestones in [`docs/MAINNET.md`](docs/MAINNET.md).
+
+---
+
+## This repository
+
+| Path | Contents |
+|---|---|
+| [`src/`](src/) | TypeScript toolchain — create mint + metadata, mint supply, revoke authorities, burn, inspect |
+| [`DEVELOPMENT.md`](DEVELOPMENT.md) | How to run the toolchain |
+| [`docs/TOKENOMICS.md`](docs/TOKENOMICS.md) | Token parameters |
+| [`docs/MAINNET.md`](docs/MAINNET.md) | Mainnet go-live plan (custody, costs, checklist) |
+| [`docs/LIQUIDITY.md`](docs/LIQUIDITY.md) | Liquidity & market plan |
+| [`GOVERNANCE.md`](GOVERNANCE.md) · [`SECURITY.md`](SECURITY.md) · [`LEGAL.md`](LEGAL.md) | Governance, security policy, legal |
+
+---
+
+## Status
+
+- ✅ SPL token implemented and validated on **devnet** — supply fixed, authorities revoked.
+- ⏳ **Mainnet** — planned, pending the milestones in `docs/MAINNET.md` (real utility live in-product, custody hardening, liquidity).
+
+---
+
+### Proprietary Notice & Copyright
+
 © 2026 Kerythos AI. All Rights Reserved.
 
 This repository contains proprietary architecture, business models, and documentation. Public visibility is provided exclusively for transparency and auditing purposes.
 
-No License Granted: No part of this repository may be reproduced, distributed, copied, or used to create derivative works without the express written permission of the Architect of Kerythos AI.
+**No License Granted** — no part of this repository may be reproduced, distributed, copied, or used to create derivative works without the express written permission of Kerythos AI.
 
-No Contributions: We do not accept external pull requests or contributions at this time to maintain the integrity of the core architecture.
+**No Contributions** — we do not accept external pull requests or contributions at this time, to preserve the integrity of the core architecture.
 
-Enforcement: Unauthorized use of the Kerythos AI brand, the $KYRT tokenomics model, or the specific agent descriptions will be treated as an infringement of intellectual property.
+For official inquiries: **support@kerythos.org**
 
-For official inquiries regarding installation or maintenance contracts, please contact our technical support at support@kerythos.org
+---
+
+**Strategy Speaks Integrity.**
