@@ -2,6 +2,7 @@ import { PublicKey, type Keypair } from '@solana/web3.js'
 import {
   AuthorityType,
   burn,
+  getAccount,
   getAssociatedTokenAddress,
   getMint,
   getOrCreateAssociatedTokenAccount,
@@ -77,4 +78,39 @@ export async function burnKyrt(
 /** Reads the on-chain state of the mint. */
 export async function readMint(mintAddress: string): Promise<Mint> {
   return getMint(getConnection(), new PublicKey(mintAddress))
+}
+
+/**
+ * Mints `rawAmount` base units to `owner`'s ATA (created if it doesn't exist).
+ * Set `allowOwnerOffCurve` when the owner is a PDA (e.g. a Squads multisig vault).
+ * @returns the tx signature.
+ */
+export async function mintToWallet(
+  treasury: Keypair,
+  mintAddress: string,
+  owner: string,
+  rawAmount: bigint,
+  allowOwnerOffCurve = false,
+): Promise<string> {
+  const connection = getConnection()
+  const mint = new PublicKey(mintAddress)
+  const ata = await getOrCreateAssociatedTokenAccount(
+    connection,
+    treasury,
+    mint,
+    new PublicKey(owner),
+    allowOwnerOffCurve,
+  )
+  return mintTo(connection, treasury, mint, ata.address, treasury, rawAmount)
+}
+
+/** Reads `owner`'s token balance (base units) for the mint; 0n if the ATA doesn't exist. */
+export async function getOwnerBalanceRaw(mintAddress: string, owner: string): Promise<bigint> {
+  const mint = new PublicKey(mintAddress)
+  const ata = await getAssociatedTokenAddress(mint, new PublicKey(owner), true)
+  try {
+    return (await getAccount(getConnection(), ata)).amount
+  } catch {
+    return 0n
+  }
 }

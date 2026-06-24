@@ -37,7 +37,7 @@ The three mechanics, on Solana:
 
 Today's `deploy.ts` (devnet dry-run) mints 100% to **one** treasury and revokes the authorities. For mainnet, with the rewards pool:
 
-- [ ] Create `src/distribute.ts`: mint to the **liquidity** wallet and to the **rewards pool (multisig)** **before** revoking the mint authority.
+- [x] ✅ **`src/distribute.ts`** (`npm run distribute`) — mints to the **liquidity** wallet (~85%) and the **rewards pool / multisig** (15%) **before** revoking the mint authority. Wallets via `KYRT_LIQUIDITY_WALLET` / `KYRT_REWARDS_WALLET` (+ `KYRT_REWARDS_PCT`, default 15). Refuses to run if the mint already has supply (no double-mint) and requires explicit wallets on mainnet. **Dry-run-validated on devnet** (full create → distribute → revoke).
 - [ ] **Vesting** → vault/team should not sit in a plain wallet. Use **Streamflow** or **Bonfida Token Vesting** (audited vesting contracts) or Squads vaults with time-locked unlocking.
 - [ ] **Immutable metadata** → host `assets/metadata.json` + logo PNG on **Arweave** (via Irys/Metaplex) or **IPFS** and pin `KYRT_METADATA_URI`. Then make the metadata immutable (`isMutable: false`).
 - [ ] **Logo** → export `logo-kyrt.svg` to **PNG 512×512** (wallets/explorers don't render SVG).

@@ -8,6 +8,7 @@
     "airdrop": "tsx src/airdrop.ts",
     "create": "tsx src/create-token.ts",
     "mint": "tsx src/mint-supply.ts",
+    "distribute": "tsx src/distribute.ts",
     "revoke": "tsx src/revoke-authorities.ts",
     "burn": "tsx src/burn.ts",
     "info": "tsx src/token-info.ts",
