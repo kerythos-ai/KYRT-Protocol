@@ -120,8 +120,8 @@ Only after a base of holders exists. Reuses the public invoice link (`get-public
 ## 9. Open decisions (for you)
 
 1. **Embedded wallet provider**, Web3Auth (Flutter SDK ready) vs Para vs Magic. Determines the integration stack.
-2. **Paying for the plan: burn or treasury?**, does paying for the plan in KYRT **burn** the token (deflation, aligns with the site) or return it to the treasury (recycling)? It has both economic and narrative implications.
-3. **Economic model**, how much KYRT per referral, what the plan discount is, what the emission cap is. Needs a spreadsheet so it doesn't turn into a loss or runaway inflation.
+2. ✅ **Paying for the plan (decided 2026-06-24): treasury (recycle)** into the Rewards pool. Deflation stays via the buyback & burn.
+3. ✅ **Economic model (decided 2026-06-24):** referral reward **$15** (off-chain, tunable), Rewards pool **15%** of supply, plan discount **15%**. Full model in `TOKENOMICS.md` and `KYRT_Tokenomics.xlsx`.
 4. **Custody**, embedded MPC (Web3Auth) is technically assisted self-custody; are you comfortable with that, or do you want a more custodial model at the start?
 5. **Tax**, KYRT earned with a market value may be taxable income for the user; worth a note in the terms.
 
