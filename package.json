@@ -15,6 +15,7 @@
     "deploy": "tsx src/deploy.ts",
     "deploy:squads": "tsx src/deploy-squads.ts",
     "logo": "node scripts/gen-logo.mjs",
+    "check:rpc": "node scripts/check-rpc.mjs",
     "typecheck": "tsc --noEmit"
   },
   "engines": {
