@@ -14,6 +14,7 @@
     "info": "tsx src/token-info.ts",
     "deploy": "tsx src/deploy.ts",
     "deploy:squads": "tsx src/deploy-squads.ts",
+    "update:metadata:squads": "tsx src/update-metadata-squads.ts",
     "logo": "node scripts/gen-logo.mjs",
     "check:rpc": "node scripts/check-rpc.mjs",
     "typecheck": "tsc --noEmit"
