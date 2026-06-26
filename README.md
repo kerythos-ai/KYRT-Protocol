@@ -35,7 +35,7 @@ Utility first: the token is **earned through real use, not sold**.
 
 - **Network:** Solana (SPL Token) · **Decimals:** 9
 - **Total supply:** 1,000,000,000, **fixed**. Mint authority and freeze authority are permanently revoked.
-- **Allocation:** fair launch of the liquidity + a **community Rewards pool (15%)** that funds Refer & Earn. **No team or investor allocation.**
+- **Allocation:** 31% liquidity (LP burned/locked) · 25% community Rewards (Refer & Earn) · **14% founders (vested 5 years)** · 30% company growth & treasury (for Kerythos' growth and to pay back collaborators). Every bucket is disclosed and verifiable on-chain; no external investors, no presale.
 - **Buyback & Burn:** a portion of ecosystem revenue repurchases $KYRT on the open market → **50% burned** (permanent deflation) / **50% to the Expansion Vault** (funds ecosystem growth).
 
 Parameters and the full economic model: [`docs/TOKENOMICS.md`](docs/TOKENOMICS.md) · [`docs/KYRT_Tokenomics.xlsx`](docs/KYRT_Tokenomics.xlsx).
@@ -44,7 +44,7 @@ Parameters and the full economic model: [`docs/TOKENOMICS.md`](docs/TOKENOMICS.m
 
 ## Launch integrity
 
-- **Fair launch**, no presale, no insider allocation, no hidden mint authority.
+- **Transparent allocation**, no presale and no external investors; the founders' tokens are locked in an **audited 5-year vesting contract**, and every bucket is public and verifiable on-chain.
 - **Immutable supply**, once deployed, the mint authority is permanently revoked; scarcity is guaranteed by the code itself.
 - **Transparent & auditable**, the entire token toolchain lives in this repository. $KYRT has been deployed and verified on Solana **devnet** as a public dry-run; **mainnet is planned** and gated by the ecosystem milestones in [`docs/MAINNET.md`](docs/MAINNET.md).
 

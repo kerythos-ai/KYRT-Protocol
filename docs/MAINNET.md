@@ -8,7 +8,7 @@ Security, custody, and go-live checklist for moving $KYRT from devnet to **mainn
 
 ## 1. Tokenomics model, liquidity fair launch + Rewards pool
 
-> **Updated (2026-06-23):** with the adoption of Refer&Earn (utility in the invoice app), the tokenomics evolved from "pure fair launch" to **liquidity fair launch (~85%) + community Rewards pool (15% = 150M)**, with no team/investor allocation. Parameters in [`TOKENOMICS.md`](TOKENOMICS.md).
+> **Updated (2026-06-25):** the genesis allocation now includes a **vested founders allocation (14%, 5-year vesting via Streamflow)** plus company **growth (20%)** and **treasury (10%)** buckets (for Kerythos' growth and to pay back collaborators), alongside **liquidity (31%)** and **community rewards (25%)**. No external investors, no presale; founders locked on-chain. Full parameters in [`TOKENOMICS.md`](TOKENOMICS.md).
 >
 > ⚠️ **Implication for the deploy:** mainnet needs a **distribution script** that mints to the liquidity pool **and** to the rewards pool, unlike the devnet dry-run (which minted 100% into a single treasury). The Expansion Vault is funded via post-launch buyback.
 
@@ -16,10 +16,12 @@ Security, custody, and go-live checklist for moving $KYRT from devnet to **mainn
 
 | Bucket | % | KYRT | Custody |
 |---|---|---|---|
-| **Liquidity (pool)** | ~85% | ~850,000,000 | LP burned/locked |
-| **Rewards Pool (community)** | 15% | 150,000,000 | Multisig, distributed via Refer&Earn |
-| Team / investor | 0% | 0 | no allocation |
-| Expansion Vault | 0% at genesis |, | funded only via post-launch buyback |
+| **Liquidity (pool)** | 31% | 310,000,000 | LP burned/locked |
+| **Community Rewards** | 25% | 250,000,000 | multisig, distributed via Refer&Earn |
+| **Founders** | 14% | 140,000,000 | 7% each (2 founders), **5-year vesting** via Streamflow |
+| **Growth / Ecosystem** | 20% | 200,000,000 | multisig, released over the project's growth |
+| **Company Treasury** | 10% | 100,000,000 | multisig |
+| Expansion Vault | 0% at genesis | n/a | funded only via post-launch buyback |
 
 The three mechanics, on Solana:
 
